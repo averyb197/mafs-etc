@@ -57,4 +57,3 @@ def plottasurface(funky, X=None, Y=None, a=None, b=None, c=None, theta=None, xlb
     ax.plot_surface(x,y,z, cmap='plasma') # plot a surface based on xyz, x and y are given and z is calculated from them
     plt.show()
 
-plottasurface(frack, xlbound=-10, xubound=10, ylbound=-10, yubound=10)

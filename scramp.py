@@ -3,8 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
 from mpl_toolkits.mplot3d import Axes3D
 
-
-key = ''' 
+''' 
 Key:
 
 m = Mandlebrot set
@@ -19,9 +18,7 @@ b = barnsley fern (broken)
 circle = will draw a circle (over 40 hours of optimization went into this function)
 
 q = quit
-
 '''
-
 
 def mandy(resolution=10000):
     xMin, xMax = (-1.80, 1)
@@ -168,6 +165,34 @@ def barnsley(n=5000):
     plt.imshow(points[::-1, :])
     plt.show()
 
+'''
+Positional Encoding
+
+PE(pos, 2i) = sin(10000^(2i/d)
+PE(pos, 2i+1) = cos(10000^(2i/d)
+
+These functions are used to give each vector in the input to a language transformer a unique position as to capture
+context of each word
+'''
+
+def posEncoding(length=2048, depth=512):
+    depth = depth/2
+
+    positions = np.arange(length)[:, np.newaxis] #1d of length lenth which has axis added to it to become size (length, 1)
+    depths = np.arange(depth)[np.newaxis, :] / depth #same but (1, depth) also takes care of (2i/d) to make next line easier
+
+    angleRates =  1/(10000**depths) #(1, depth)
+    angleRadians = positions * angleRates
+
+    encoding = np.concatenate([np.sin(angleRadians), np.cos(angleRadians)], axis=-1)
+    print(encoding.shape)
+
+    plt.pcolormesh(encoding.T, cmap='RdBu') # .T = transpose, aka: swap columns and rows
+    plt.colorbar()
+    plt.ylabel('Depth')
+    plt.xlabel('Position')
+    plt.show()
+
 def terms():
     while True:
         fucky = input('Command or enter "help" to see a list of commands ===> ')
@@ -186,6 +211,8 @@ def terms():
             barnsley()
         elif fucky == 'circle':
             circy()
+        elif fucky == 'pe':
+            posEncoding()
         elif fucky == 'q':
             break
         elif fucky == "help":
