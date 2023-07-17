@@ -17,6 +17,8 @@ b = barnsley fern (broken)
 
 circle = will draw a circle (over 40 hours of optimization went into this function)
 
+pe = visualization of positional embeddings in transformers
+
 q = quit
 '''
 
